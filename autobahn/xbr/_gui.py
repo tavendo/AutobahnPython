@@ -847,7 +847,7 @@ class ApplicationClient(Client):
             status = yield self.call('xbr.network.get_status')
             return {'config': config, 'status': status}
         else:
-            self.log.warn('not connected: could not retrieve status')
+            self.log.warning('not connected: could not retrieve status')
 
     @inlineCallbacks
     def get_member(self, ethadr_raw):
@@ -886,11 +886,11 @@ class ApplicationClient(Client):
 
                 return member_data
             else:
-                self.log.warn('Address {output_ethadr} is not a member in the XBR network',
-                              output_ethadr=ethadr_raw)
+                self.log.warning('Address {output_ethadr} is not a member in the XBR network',
+                                 output_ethadr=ethadr_raw)
         else:
-            self.log.warn('not connected: could not retrieve member data for address {output_ethadr}',
-                          output_ethadr=ethadr_raw)
+            self.log.warning('not connected: could not retrieve member data for address {output_ethadr}',
+                             output_ethadr=ethadr_raw)
 
 
 class Application(object):

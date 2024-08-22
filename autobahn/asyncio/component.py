@@ -304,7 +304,7 @@ class Component(component.Component):
         """
 
         if loop is None:
-            self.log.warn("Using default loop")
+            self.log.warning("Using default loop")
             loop = asyncio.get_event_loop()
 
         return self._start(loop=loop)

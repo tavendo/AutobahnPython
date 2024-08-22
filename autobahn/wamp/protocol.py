@@ -272,14 +272,14 @@ class BaseSession(ObservableMixin):
 
             if not self._payload_codec:
                 log_msg = "received encoded payload, but no payload codec active"
-                self.log.warn(log_msg)
+                self.log.warning(log_msg)
                 enc_err = ApplicationError(ApplicationError.ENC_NO_PAYLOAD_CODEC, log_msg, enc_algo=msg.enc_algo)
             else:
                 try:
                     encoded_payload = EncodedPayload(msg.payload, msg.enc_algo, msg.enc_serializer, msg.enc_key)
                     decrypted_error, msg.args, msg.kwargs = self._payload_codec.decode(True, msg.error, encoded_payload)
                 except Exception as e:
-                    self.log.warn("failed to decrypt application payload 1: {err}", err=e)
+                    self.log.warning("failed to decrypt application payload 1: {err}", err=e)
                     enc_err = ApplicationError(
                         ApplicationError.ENC_DECRYPT_ERROR,
                         "failed to decrypt application payload 1: {}".format(e),
@@ -287,7 +287,7 @@ class BaseSession(ObservableMixin):
                     )
                 else:
                     if msg.error != decrypted_error:
-                        self.log.warn(
+                        self.log.warning(
                             "URI within encrypted payload ('{decrypted_error}') does not match the envelope ('{error}')",
                             decrypted_error=decrypted_error,
                             error=msg.error,
@@ -496,9 +496,9 @@ class ApplicationSession(BaseSession):
         Implements :func:`autobahn.wamp.interfaces.ISession.onUserError`
         """
         if hasattr(fail, 'value') and isinstance(fail.value, exception.ApplicationError):
-            self.log.warn('{klass}.onUserError(): "{msg}"',
-                          klass=self.__class__.__name__,
-                          msg=fail.value.error_message())
+            self.log.warning('{klass}.onUserError(): "{msg}"',
+                             klass=self.__class__.__name__,
+                             msg=fail.value.error_message())
         else:
             self.log.error(
                 '{klass}.onUserError(): "{msg}"\n{traceback}',
@@ -750,18 +750,18 @@ class ApplicationSession(BaseSession):
                         if msg.enc_algo:
                             # FIXME: behavior in error cases (no keyring, decrypt issues, URI mismatch, ..)
                             if not self._payload_codec:
-                                self.log.warn("received encoded payload with enc_algo={enc_algo}, but no payload codec active - ignoring encoded payload!", enc_algo=msg.enc_algo)
+                                self.log.warning("received encoded payload with enc_algo={enc_algo}, but no payload codec active - ignoring encoded payload!", enc_algo=msg.enc_algo)
                                 return
                             else:
                                 try:
                                     encoded_payload = EncodedPayload(msg.payload, msg.enc_algo, msg.enc_serializer, msg.enc_key)
                                     decoded_topic, msg.args, msg.kwargs = self._payload_codec.decode(False, topic, encoded_payload)
                                 except Exception as e:
-                                    self.log.warn("failed to decode application payload encoded with enc_algo={enc_algo}: {error}", error=e, enc_algo=msg.enc_algo)
+                                    self.log.warning("failed to decode application payload encoded with enc_algo={enc_algo}: {error}", error=e, enc_algo=msg.enc_algo)
                                     return
                                 else:
                                     if topic != decoded_topic:
-                                        self.log.warn("envelope topic URI does not match encoded one")
+                                        self.log.warning("envelope topic URI does not match encoded one")
                                         return
 
                         invoke_args = (handler.obj,) if handler.obj else tuple()
@@ -781,7 +781,7 @@ class ApplicationSession(BaseSession):
                                     response = message.EventReceived(msg.publication)
                                     self._transport.send(response)
                                 else:
-                                    self.log.warn("successfully processed event with acknowledged delivery, but could not send ACK, since the transport was lost in the meantime")
+                                    self.log.warning("successfully processed event with acknowledged delivery, but could not send ACK, since the transport was lost in the meantime")
 
                         def _error(e):
                             errmsg = 'While firing {0} subscribed under {1}.'.format(
@@ -869,14 +869,14 @@ class ApplicationSession(BaseSession):
 
                         if not self._payload_codec:
                             log_msg = "received encoded payload, but no payload codec active"
-                            self.log.warn(log_msg)
+                            self.log.warning(log_msg)
                             enc_err = ApplicationError(ApplicationError.ENC_NO_PAYLOAD_CODEC, log_msg)
                         else:
                             try:
                                 encoded_payload = EncodedPayload(msg.payload, msg.enc_algo, msg.enc_serializer, msg.enc_key)
                                 decrypted_proc, msg.args, msg.kwargs = self._payload_codec.decode(True, proc, encoded_payload)
                             except Exception as e:
-                                self.log.warn(
+                                self.log.warning(
                                     "failed to decrypt application payload 1: {err}",
                                     err=e,
                                 )
@@ -886,7 +886,7 @@ class ApplicationSession(BaseSession):
                                 )
                             else:
                                 if proc != decrypted_proc:
-                                    self.log.warn(
+                                    self.log.warning(
                                         "URI within encrypted payload ('{decrypted_proc}') does not match the envelope ('{proc}')",
                                         decrypted_proc=decrypted_proc,
                                         proc=proc,
@@ -989,14 +989,14 @@ class ApplicationSession(BaseSession):
                         if msg.enc_algo:
                             if not self._payload_codec:
                                 log_msg = "received encrypted INVOCATION payload, but no keyring active"
-                                self.log.warn(log_msg)
+                                self.log.warning(log_msg)
                                 enc_err = ApplicationError(ApplicationError.ENC_NO_PAYLOAD_CODEC, log_msg)
                             else:
                                 try:
                                     encoded_payload = EncodedPayload(msg.payload, msg.enc_algo, msg.enc_serializer, msg.enc_key)
                                     decrypted_proc, msg.args, msg.kwargs = self._payload_codec.decode(False, proc, encoded_payload)
                                 except Exception as e:
-                                    self.log.warn(
+                                    self.log.warning(
                                         "failed to decrypt INVOCATION payload: {err}",
                                         err=e,
                                     )
@@ -1006,7 +1006,7 @@ class ApplicationSession(BaseSession):
                                     )
                                 else:
                                     if proc != decrypted_proc:
-                                        self.log.warn(
+                                        self.log.warning(
                                             "URI within encrypted INVOCATION payload ('{decrypted_proc}') "
                                             "does not match the envelope ('{proc}')",
                                             decrypted_proc=decrypted_proc,
@@ -1084,7 +1084,7 @@ class ApplicationSession(BaseSession):
                                 if msg.enc_algo:
                                     if not self._payload_codec:
                                         log_msg = "trying to send encrypted payload, but no keyring active"
-                                        self.log.warn(log_msg)
+                                        self.log.warning(log_msg)
                                     else:
                                         try:
                                             if isinstance(res, types.CallResult):
@@ -1092,7 +1092,7 @@ class ApplicationSession(BaseSession):
                                             else:
                                                 encoded_payload = self._payload_codec.encode(False, proc, [res])
                                         except Exception as e:
-                                            self.log.warn(
+                                            self.log.warning(
                                                 "failed to encrypt application payload: {err}",
                                                 err=e,
                                             )
@@ -1405,7 +1405,7 @@ class ApplicationSession(BaseSession):
         Implements :meth:`autobahn.wamp.interfaces.ISession.onLeave`
         """
         if details.reason != CloseDetails.REASON_DEFAULT:
-            self.log.warn('session closed with reason {reason} [{message}]', reason=details.reason, message=details.message)
+            self.log.warning('session closed with reason {reason} [{message}]', reason=details.reason, message=details.message)
 
         # fire ApplicationError on any currently outstanding requests
         exc = ApplicationError(details.reason, details.message)
@@ -1423,7 +1423,7 @@ class ApplicationSession(BaseSession):
         Implements :meth:`autobahn.wamp.interfaces.ISession.leave`
         """
         if not self._session_id:
-            self.log.warn('session is not joined on a realm - no session to leave')
+            self.log.warning('session is not joined on a realm - no session to leave')
             return
 
         if not self._goodbye_sent:
@@ -1433,7 +1433,7 @@ class ApplicationSession(BaseSession):
             self._transport.send(msg)
             self._goodbye_sent = True
         else:
-            self.log.warn('session was already requested to leave - not sending GOODBYE again')
+            self.log.warning('session was already requested to leave - not sending GOODBYE again')
 
         is_closed = self._transport is None or self._transport.is_closed
 

@@ -706,7 +706,7 @@ class Component(ObservableMixin):
                     break
 
             delay = transport.next_delay()
-            self.log.warn(
+            self.log.warning(
                 'trying transport {transport_idx} ("{transport_url}") using connect delay {transport_delay}',
                 transport_idx=transport.idx,
                 transport_url=transport.url,
@@ -831,7 +831,7 @@ class Component(ObservableMixin):
                     )
                     if not txaio.is_called(done):
                         if not was_clean:
-                            self.log.warn(
+                            self.log.warning(
                                 "Session disconnected uncleanly"
                             )
                         else:

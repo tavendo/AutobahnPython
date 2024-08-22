@@ -303,7 +303,7 @@ class WampRawSocketMixinGeneral(object):
             self._session.onOpen(self)
         except Exception as e:
             # Exceptions raised in onOpen are fatal ..
-            self.log.warn("WampRawSocketProtocol: ApplicationSession constructor / onOpen raised ({err})", err=e)
+            self.log.warning("WampRawSocketProtocol: ApplicationSession constructor / onOpen raised ({err})", err=e)
             self.abort()
         else:
             self.log.info("ApplicationSession started.")
@@ -316,11 +316,11 @@ class WampRawSocketMixinGeneral(object):
                 self._session.onMessage(msg)
 
         except ProtocolError as e:
-            self.log.warn("WampRawSocketProtocol: WAMP Protocol Error ({err}) - aborting connection", err=e)
+            self.log.warning("WampRawSocketProtocol: WAMP Protocol Error ({err}) - aborting connection", err=e)
             self.abort()
 
         except Exception as e:
-            self.log.warn("WampRawSocketProtocol: WAMP Internal Error ({err}) - aborting connection", err=e)
+            self.log.warning("WampRawSocketProtocol: WAMP Internal Error ({err}) - aborting connection", err=e)
             self.abort()
 
     def send(self, msg):
@@ -360,7 +360,7 @@ class WampRawSocketMixinAsyncio(object):
             self._session.onClose(wasClean)
         except Exception as e:
             # silently ignore exceptions raised here ..
-            self.log.warn("WampRawSocketProtocol: ApplicationSession.onClose raised ({err})", err=e)
+            self.log.warning("WampRawSocketProtocol: ApplicationSession.onClose raised ({err})", err=e)
         self._session = None
 
     def close(self):

@@ -76,7 +76,7 @@ class SimpleBlockchain(object):
         # check we are connected, and check network ID
         if not w3.isConnected():
             emsg = 'could not connect to Web3/Ethereum at: {}'.format(self._gateway or 'auto')
-            self.log.warn(emsg)
+            self.log.warning(emsg)
             raise RuntimeError(emsg)
         else:
             print('connected to network {} at provider "{}"'.format(w3.version.network,

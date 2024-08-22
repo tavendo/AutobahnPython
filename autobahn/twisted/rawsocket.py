@@ -130,11 +130,12 @@ class WampRawSocketProtocol(Int32StringReceiver):
             res = self._session.onOpen(self)
         except Exception as e:
             # Exceptions raised in onOpen are fatal ..
-            self.log.warn("{klass}._on_handshake_complete(): ApplicationSession constructor / onOpen raised ({err})",
-                          klass=self.__class__.__name__, err=e)
+            self.log.warning("{klass}._on_handshake_complete(): ApplicationSession constructor / onOpen raised ({err})",
+                             klass=self.__class__.__name__, err=e)
             self.abort()
         else:
-            self.log.debug('{klass}._on_handshake_complete(): {session} started (res={res}).', klass=self.__class__.__name__,
+            self.log.debug('{klass}._on_handshake_complete(): {session} started (res={res}).',
+                           klass=self.__class__.__name__,
                            session=self._session, res=res)
 
     def connectionLost(self, reason):
@@ -146,8 +147,8 @@ class WampRawSocketProtocol(Int32StringReceiver):
                 self._session.onClose(wasClean)
         except Exception as e:
             # silently ignore exceptions raised here ..
-            self.log.warn('{klass}.connectionLost(): ApplicationSession.onClose raised "{err}"',
-                          klass=self.__class__.__name__, err=e)
+            self.log.warning('{klass}.connectionLost(): ApplicationSession.onClose raised "{err}"',
+                             klass=self.__class__.__name__, err=e)
         self._session = None
 
     def stringReceived(self, payload):
@@ -165,34 +166,34 @@ class WampRawSocketProtocol(Int32StringReceiver):
                            err=e)
 
         except InvalidUriError as e:
-            self.log.warn("{klass}.stringReceived: WAMP InvalidUriError - aborting connection!\n{err}",
-                          klass=self.__class__.__name__,
-                          err=e)
+            self.log.warning("{klass}.stringReceived: WAMP InvalidUriError - aborting connection!\n{err}",
+                             klass=self.__class__.__name__,
+                             err=e)
             self.abort()
 
         except ProtocolError as e:
-            self.log.warn("{klass}.stringReceived: WAMP ProtocolError - aborting connection!\n{err}",
-                          klass=self.__class__.__name__,
-                          err=e)
+            self.log.warning("{klass}.stringReceived: WAMP ProtocolError - aborting connection!\n{err}",
+                             klass=self.__class__.__name__,
+                             err=e)
             self.abort()
 
         except PayloadExceededError as e:
-            self.log.warn("{klass}.stringReceived: WAMP PayloadExceededError - aborting connection!\n{err}",
-                          klass=self.__class__.__name__,
-                          err=e)
+            self.log.warning("{klass}.stringReceived: WAMP PayloadExceededError - aborting connection!\n{err}",
+                             klass=self.__class__.__name__,
+                             err=e)
             self.abort()
 
         except SerializationError as e:
-            self.log.warn("{klass}.stringReceived: WAMP SerializationError - aborting connection!\n{err}",
-                          klass=self.__class__.__name__,
-                          err=e)
+            self.log.warning("{klass}.stringReceived: WAMP SerializationError - aborting connection!\n{err}",
+                             klass=self.__class__.__name__,
+                             err=e)
             self.abort()
 
         except Exception as e:
             self.log.failure()
-            self.log.warn("{klass}.stringReceived: WAMP Exception - aborting connection!\n{err}",
-                          klass=self.__class__.__name__,
-                          err=e)
+            self.log.warning("{klass}.stringReceived: WAMP Exception - aborting connection!\n{err}",
+                             klass=self.__class__.__name__,
+                             err=e)
             self.abort()
 
     def send(self, msg):
@@ -212,7 +213,7 @@ class WampRawSocketProtocol(Int32StringReceiver):
                 if 0 < self._max_len_send < payload_len:
                     emsg = 'tried to send RawSocket message with size {} exceeding payload limit of {} octets'.format(
                         payload_len, self._max_len_send)
-                    self.log.warn(emsg)
+                    self.log.warning(emsg)
                     raise PayloadExceededError(emsg)
                 else:
                     self.sendString(payload)
@@ -279,7 +280,7 @@ class WampRawSocketServerProtocol(WampRawSocketProtocol):
                 #
                 _magic = ord(self._handshake_bytes[0:1])
                 if _magic != 127:
-                    self.log.warn(
+                    self.log.warning(
                         "WampRawSocketServerProtocol: invalid magic byte (octet 1) in"
                         " opening handshake: was {magic}, but expected 127",
                         magic=_magic,
@@ -306,7 +307,7 @@ class WampRawSocketServerProtocol(WampRawSocketProtocol):
                         serializer=ser_id,
                     )
                 else:
-                    self.log.warn(
+                    self.log.warning(
                         "WampRawSocketServerProtocol: opening handshake - no suitable serializer found (client requested {serializer}, and we have {serializers}",
                         serializer=ser_id,
                         serializers=self.factory._serializers.keys(),

@@ -329,7 +329,7 @@ class Component(component.Component):
             "done" or with a Failure if something went wrong.
         """
         if reactor is None:
-            self.log.warn("Using default reactor")
+            self.log.warning("Using default reactor")
             from twisted.internet import reactor
 
         return self._start(loop=reactor)
@@ -370,7 +370,7 @@ def run(components: List[Component], log_level: str = 'info', stop_at_close: boo
             if isinstance(arg, Failure):
                 log.error('Something went wrong: {log_failure}', failure=arg)
                 try:
-                    log.warn('Stopping reactor ..')
+                    log.warning('Stopping reactor ..')
                     reactor.stop()
                 except ReactorNotRunning:
                     pass

@@ -94,11 +94,11 @@ def install_optimal_reactor(require_optimal_reactor=True):
                     from twisted.internet import kqreactor
                     kqreactor.install()
                 except:
-                    log.warn('Running on *BSD or MacOSX, but cannot install kqueue Twisted reactor: {tb}', tb=traceback.format_exc())
+                    log.warning('Running on *BSD or MacOSX, but cannot install kqueue Twisted reactor: {tb}', tb=traceback.format_exc())
                 else:
                     log.debug('Running on *BSD or MacOSX and optimal reactor (kqueue) was installed.')
             else:
-                log.warn('Running on *BSD or MacOSX, but cannot install kqueue Twisted reactor, because another reactor ({klass}) is already installed.', klass=current_reactor)
+                log.warning('Running on *BSD or MacOSX, but cannot install kqueue Twisted reactor, because another reactor ({klass}) is already installed.', klass=current_reactor)
                 if require_optimal_reactor:
                     raise ReactorAlreadyInstalledError()
         else:
@@ -114,11 +114,11 @@ def install_optimal_reactor(require_optimal_reactor=True):
                     from twisted.internet.iocpreactor import reactor as iocpreactor
                     iocpreactor.install()
                 except:
-                    log.warn('Running on Windows, but cannot install IOCP Twisted reactor: {tb}', tb=traceback.format_exc())
+                    log.warning('Running on Windows, but cannot install IOCP Twisted reactor: {tb}', tb=traceback.format_exc())
                 else:
                     log.debug('Running on Windows and optimal reactor (ICOP) was installed.')
             else:
-                log.warn('Running on Windows, but cannot install IOCP Twisted reactor, because another reactor ({klass}) is already installed.', klass=current_reactor)
+                log.warning('Running on Windows, but cannot install IOCP Twisted reactor, because another reactor ({klass}) is already installed.', klass=current_reactor)
                 if require_optimal_reactor:
                     raise ReactorAlreadyInstalledError()
         else:
@@ -134,11 +134,11 @@ def install_optimal_reactor(require_optimal_reactor=True):
                     from twisted.internet import epollreactor
                     epollreactor.install()
                 except:
-                    log.warn('Running on Linux, but cannot install Epoll Twisted reactor: {tb}', tb=traceback.format_exc())
+                    log.warning('Running on Linux, but cannot install Epoll Twisted reactor: {tb}', tb=traceback.format_exc())
                 else:
                     log.debug('Running on Linux and optimal reactor (epoll) was installed.')
             else:
-                log.warn('Running on Linux, but cannot install Epoll Twisted reactor, because another reactor ({klass}) is already installed.', klass=current_reactor)
+                log.warning('Running on Linux, but cannot install Epoll Twisted reactor, because another reactor ({klass}) is already installed.', klass=current_reactor)
                 if require_optimal_reactor:
                     raise ReactorAlreadyInstalledError()
         else:
@@ -156,11 +156,11 @@ def install_optimal_reactor(require_optimal_reactor=True):
                     # from twisted.internet import default as defaultreactor
                     # defaultreactor.install()
                 except:
-                    log.warn('Running on "{platform}", but cannot install Select Twisted reactor: {tb}', tb=traceback.format_exc(), platform=sys.platform)
+                    log.warning('Running on "{platform}", but cannot install Select Twisted reactor: {tb}', tb=traceback.format_exc(), platform=sys.platform)
                 else:
                     log.debug('Running on "{platform}" and optimal reactor (Select) was installed.', platform=sys.platform)
             else:
-                log.warn('Running on "{platform}", but cannot install Select Twisted reactor, because another reactor ({klass}) is already installed.', klass=current_reactor, platform=sys.platform)
+                log.warning('Running on "{platform}", but cannot install Select Twisted reactor, because another reactor ({klass}) is already installed.', klass=current_reactor, platform=sys.platform)
                 if require_optimal_reactor:
                     raise ReactorAlreadyInstalledError()
         else:

@@ -353,8 +353,8 @@ class Client(ApplicationSession):
                           member_adr=hlval(member_data['address']))
             return member_data
         else:
-            self.log.warn('Address 0x{member_adr} is not a member in the XBR network',
-                          member_adr=hlval(binascii.b2a_hex(member_adr).decode()))
+            self.log.warning('Address 0x{member_adr} is not a member in the XBR network',
+                             member_adr=hlval(binascii.b2a_hex(member_adr).decode()))
 
     async def _do_get_actor(self, market_oid, actor_adr):
         is_member = await self.call('xbr.network.is_member', actor_adr)
@@ -408,8 +408,8 @@ class Client(ApplicationSession):
             else:
                 self.log.info('Member is not yet actor in any market!')
         else:
-            self.log.warn('Address 0x{member_adr} is not a member in the XBR network',
-                          member_adr=binascii.b2a_hex(actor_adr).decode())
+            self.log.warning('Address 0x{member_adr} is not a member in the XBR network',
+                             member_adr=binascii.b2a_hex(actor_adr).decode())
 
     @inlineCallbacks
     def _do_onboard_member(self, member_username, member_email, member_password=None):
@@ -654,7 +654,7 @@ class Client(ApplicationSession):
             self.log.info('Market {market_oid} information:\n\n{market}\n',
                           market_oid=hlid(market_oid), market=pformat(market))
         else:
-            self.log.warn('No market {market_oid} found!', market_oid=hlid(market_oid))
+            self.log.warning('No market {market_oid} found!', market_oid=hlid(market_oid))
 
     async def _do_join_market(self, member_oid, market_oid, actor_type):
 

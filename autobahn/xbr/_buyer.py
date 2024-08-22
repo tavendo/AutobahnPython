@@ -436,10 +436,10 @@ class SimpleBuyer(object):
                                                           marketmaker_channel_seq, marketmaker_remaining,
                                                           False, marketmaker_signature)
             if signer_address != self._market_maker_adr:
-                self.log.warn('{klass}.unwrap()::XBRSIG[8/8] - EIP712 signature invalid: signer_address={signer_address}, delegate_adr={delegate_adr}',
-                              klass=self.__class__.__name__,
-                              signer_address=hl(binascii.b2a_hex(signer_address).decode()),
-                              delegate_adr=hl(binascii.b2a_hex(self._market_maker_adr).decode()))
+                self.log.warning('{klass}.unwrap()::XBRSIG[8/8] - EIP712 signature invalid: signer_address={signer_address}, delegate_adr={delegate_adr}',
+                                 klass=self.__class__.__name__,
+                                 signer_address=hl(binascii.b2a_hex(signer_address).decode()),
+                                 delegate_adr=hl(binascii.b2a_hex(self._market_maker_adr).decode()))
                 raise ApplicationError('xbr.error.invalid_signature',
                                        '{}.unwrap()::XBRSIG[8/8] - EIP712 signature invalid or not signed by market maker'.format(self.__class__.__name__))
 

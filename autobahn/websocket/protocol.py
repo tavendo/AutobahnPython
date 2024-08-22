@@ -890,7 +890,7 @@ class WebSocketProtocol(ObservableMixin):
             if self.wasClean:
                 self.log.debug('dropping connection to peer {peer} with abort={abort}', peer=self.peer, abort=abort)
             else:
-                self.log.warn('dropping connection to peer {peer} with abort={abort}: {reason}', peer=self.peer, abort=abort, reason=self.wasNotCleanReason)
+                self.log.warning('dropping connection to peer {peer} with abort={abort}: {reason}', peer=self.peer, abort=abort, reason=self.wasNotCleanReason)
 
             self.droppedByMe = True
 
@@ -916,7 +916,7 @@ class WebSocketProtocol(ObservableMixin):
         Fails the WebSocket connection.
         """
         if self.state != WebSocketProtocol.STATE_CLOSED:
-            self.log.warn('failing WebSocket connection (code={code}): "{reason}"', code=code, reason=reason)
+            self.log.warning('failing WebSocket connection (code={code}): "{reason}"', code=code, reason=reason)
 
             self.failedByMe = True
 
@@ -1809,9 +1809,9 @@ class WebSocketProtocol(ObservableMixin):
                                 self._sendAutoPing,
                             )
                     else:
-                        self.log.warn("Auto ping/pong: received non-pending pong")
+                        self.log.warning("Auto ping/pong: received non-pending pong")
                 except:
-                    self.log.warn("Auto ping/pong: received non-pending pong")
+                    self.log.warning("Auto ping/pong: received non-pending pong")
 
             # fire app-level callback
             #
@@ -2312,7 +2312,7 @@ class WebSocketProtocol(ObservableMixin):
         if 0 < self.maxMessagePayloadSize < payload_len:
             self.wasMaxMessagePayloadSizeExceeded = True
             emsg = 'tried to send WebSocket message with size {} exceeding payload limit of {} octets'.format(payload_len, self.maxMessagePayloadSize)
-            self.log.warn(emsg)
+            self.log.warning(emsg)
             raise PayloadExceededError(emsg)
 
         # explicit fragmentSize arguments overrides autoFragmentSize setting
@@ -2914,8 +2914,8 @@ class WebSocketServerProtocol(WebSocketProtocol):
                         self.failHandshake(err.value.reason, err.value.code)
                     else:
                         # the user handler ran into an unexpected error (and hence, user code needs fixing!)
-                        self.log.warn("Unexpected exception in onConnect ['{err.value}']", err=err)
-                        self.log.warn("{tb}", tb=txaio.failure_format_traceback(err))
+                        self.log.warning("Unexpected exception in onConnect ['{err.value}']", err=err)
+                        self.log.warning("{tb}", tb=txaio.failure_format_traceback(err))
                         return self.failHandshake("Internal server error: {}".format(err.value), ConnectionDeny.INTERNAL_SERVER_ERROR)
 
                 txaio.add_callbacks(f, self.succeedHandshake, forward_error)

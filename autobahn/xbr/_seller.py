@@ -345,18 +345,18 @@ class SimpleSeller(object):
 
                 except ApplicationError as e:
                     if e.error == 'wamp.error.no_such_procedure':
-                        self.log.warn('xbr.marketmaker.offer: procedure unavailable!')
+                        self.log.warning('xbr.marketmaker.offer: procedure unavailable!')
                     else:
                         self.log.failure()
                         break
                 except TransportLost:
-                    self.log.warn('TransportLost while calling xbr.marketmaker.offer!')
+                    self.log.warning('TransportLost while calling xbr.marketmaker.offer!')
                     break
                 except:
                     self.log.failure()
 
                 retries -= 1
-                self.log.warn('Failed to place offer for key! Retrying {retries}/5 ..', retries=retries)
+                self.log.warning('Failed to place offer for key! Retrying {retries}/5 ..', retries=retries)
                 await asyncio.sleep(1)
 
         key_series = self.KeySeries(api_id, price, interval=interval, count=count, on_rotate=on_rotate)
@@ -547,10 +547,10 @@ class SimpleSeller(object):
         # XBRSIG: check the signature (over all input data for the buying of the key)
         signer_address = recover_eip712_channel_close(channel_oid, channel_seq, channel_balance, channel_is_final, marketmaker_signature)
         if signer_address != market_maker_adr:
-            self.log.warn('{klass}.sell()::XBRSIG[4/8] - EIP712 signature invalid: signer_address={signer_address}, delegate_adr={delegate_adr}',
-                          klass=self.__class__.__name__,
-                          signer_address=hl(binascii.b2a_hex(signer_address).decode()),
-                          delegate_adr=hl(binascii.b2a_hex(market_maker_adr).decode()))
+            self.log.warning('{klass}.sell()::XBRSIG[4/8] - EIP712 signature invalid: signer_address={signer_address}, delegate_adr={delegate_adr}',
+                             klass=self.__class__.__name__,
+                             signer_address=hl(binascii.b2a_hex(signer_address).decode()),
+                             delegate_adr=hl(binascii.b2a_hex(market_maker_adr).decode()))
             raise ApplicationError('xbr.error.invalid_signature', '{}.sell()::XBRSIG[4/8] - EIP712 signature invalid or not signed by market maker'.format(self.__class__.__name__))
 
         # XBRSIG: compute EIP712 typed data signature
@@ -663,10 +663,10 @@ class SimpleSeller(object):
         signer_address = recover_eip712_channel_close(verifying_chain_id, verifying_contract_adr, current_block_number,
                                                       market_oid, channel_oid, channel_seq, balance, False, signature)
         if signer_address != market_maker_adr:
-            self.log.warn('{klass}.sell()::XBRSIG[4/8] - EIP712 signature invalid: signer_address={signer_address}, delegate_adr={delegate_adr}',
-                          klass=self.__class__.__name__,
-                          signer_address=hl(binascii.b2a_hex(signer_address).decode()),
-                          delegate_adr=hl(binascii.b2a_hex(market_maker_adr).decode()))
+            self.log.warning('{klass}.sell()::XBRSIG[4/8] - EIP712 signature invalid: signer_address={signer_address}, delegate_adr={delegate_adr}',
+                             klass=self.__class__.__name__,
+                             signer_address=hl(binascii.b2a_hex(signer_address).decode()),
+                             delegate_adr=hl(binascii.b2a_hex(market_maker_adr).decode()))
             raise ApplicationError('xbr.error.invalid_signature', '{}.sell()::XBRSIG[4/8] - EIP712 signature invalid or not signed by market maker'.format(self.__class__.__name__))
 
         # now actually update our local knowledge of the channel state
