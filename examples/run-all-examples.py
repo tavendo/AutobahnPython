@@ -22,7 +22,7 @@ import colorama
 from colorama import Fore
 
 from twisted.internet.protocol import ProcessProtocol
-from twisted.internet.defer import inlineCallbacks, Deferred, returnValue
+from twisted.internet.defer import inlineCallbacks, Deferred
 from twisted.internet.error import ProcessExitedAlready
 from twisted.internet import reactor
 from twisted.internet.task import react
@@ -108,7 +108,7 @@ def start_crossbar():
     else:
         DELAY = 2.
     yield sleep(DELAY)
-    returnValue(protocol)
+    return protocol
 
 
 @inlineCallbacks
@@ -124,7 +124,7 @@ def start_example(py_fname, color, prefix='', exe=sys.executable):
     reactor.spawnProcess(protocol, exe, args, path='.', env=env)
 
     yield launched
-    returnValue(protocol)
+    return protocol
 
 
 def print_banner(title):
@@ -232,8 +232,8 @@ def main(reactor):
         print()
         print("Success!")
         print("  ...all the examples neither crashed nor burned...")
-        returnValue(0)
-    returnValue(5)
+        return 0
+    return 5
 
 
 if __name__ == '__main__':

@@ -30,7 +30,6 @@ from crochet import setup, run_in_reactor, wait_for
 # this MUST be called _before_ any Autobahn or Twisted imports!
 setup()
 
-from twisted.internet.defer import returnValue  # noqa
 from autobahn.twisted.util import sleep  # noqa
 from autobahn.twisted.wamp import Application  # noqa
 
@@ -50,7 +49,7 @@ def square(x):
 def slowsquare(x):
     print("slowsquare() called with {}".format(x))
     yield sleep(2)
-    returnValue(x * x)
+    return x * x
 
 
 # the following are synchronous wrappers around the asynchronous WAMP code

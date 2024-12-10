@@ -29,8 +29,7 @@ from autobahn.twisted.websocket import WebSocketServerProtocol, \
 
 import json
 from twisted.internet.defer import Deferred, \
-    inlineCallbacks, \
-    returnValue
+    inlineCallbacks
 
 
 def sleep(delay):
@@ -47,7 +46,7 @@ class SlowSquareServerProtocol(WebSocketServerProtocol):
             raise Exception("number too large")
         else:
             yield sleep(1)
-            returnValue(x * x)
+            return x * x
 
     @inlineCallbacks
     def onMessage(self, payload, isBinary):

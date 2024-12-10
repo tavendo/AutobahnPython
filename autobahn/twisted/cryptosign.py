@@ -27,7 +27,7 @@
 
 from autobahn.wamp.cryptosign import HAS_CRYPTOSIGN, CryptosignKey
 
-from twisted.internet.defer import inlineCallbacks, returnValue
+from twisted.internet.defer import inlineCallbacks
 
 __all__ = [
     'HAS_CRYPTOSIGN_SSHAGENT'
@@ -118,7 +118,7 @@ if HAS_CRYPTOSIGN_SSHAGENT:
 
                 if key_data:
                     key = signing.VerifyKey(key_data)
-                    returnValue(cls(key, key_comment, reactor))
+                    return cls(key, key_comment, reactor)
                 else:
                     raise Exception("Ed25519 key not held in ssh-agent")
 
@@ -147,6 +147,6 @@ if HAS_CRYPTOSIGN_SSHAGENT:
 
                 agent.transport.loseConnection()
 
-                returnValue(signature)
+                return signature
 
             return d.addCallback(on_connect)

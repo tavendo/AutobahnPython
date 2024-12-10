@@ -29,7 +29,7 @@ import unittest.mock as mock
 
 if os.environ.get('USE_TWISTED', False):
 
-    from twisted.internet.defer import inlineCallbacks, Deferred, returnValue
+    from twisted.internet.defer import inlineCallbacks, Deferred
     from twisted.internet.defer import succeed, fail, DeferredList
     from twisted.trial import unittest
     import twisted
@@ -814,7 +814,7 @@ if os.environ.get('USE_TWISTED', False):
                 for i in range(10):
                     details.progress(i)
                     yield succeed(i)
-                returnValue(42)
+                return 42
 
             progressive = list(map(lambda _: Deferred(), range(10)))
 
@@ -850,7 +850,7 @@ if os.environ.get('USE_TWISTED', False):
                 self.assertEqual('arg', arg)
                 details.progress('life', something='nothing')
                 yield succeed('meaning of')
-                returnValue(42)
+                return 42
 
             got_progress = Deferred()
             progress_error = NameError('foo')
@@ -899,7 +899,7 @@ if os.environ.get('USE_TWISTED', False):
                 self.assertTrue(details.progress is not None)
                 details.progress()
                 yield succeed(True)
-                returnValue(42)
+                return 42
 
             got_progress = Deferred()
 
@@ -931,7 +931,7 @@ if os.environ.get('USE_TWISTED', False):
                 self.assertTrue(details.progress is not None)
                 details.progress(key='word')
                 yield succeed(True)
-                returnValue(42)
+                return 42
 
             got_progress = Deferred()
 

@@ -80,8 +80,7 @@ a more convincing demo.
 If you use "yield" inside any of the callbacks, `@inlineCallbacks` will
 be applied automatically. It means every yielded line will be be added in
 a Deferred so they execute sequentially, in regards to the other yielded
-lines in the same function. In that case, you should not `return`, but use
-`returnValue`.
+lines in the same function.
 
 :Example:
 
@@ -89,7 +88,6 @@ lines in the same function. In that case, you should not `return`, but use
 
    from autobahn.twisted.wamp import Application
 
-   from twisted.internet.defer import returnValue
    from twisted.web.client import Agent
 
    app = Application()
@@ -106,9 +104,7 @@ lines in the same function. In that case, you should not `return`, but use
       # Asynchronous GET request on the url
       d = yield agent.request('GET', url)
 
-      # Using returnValue and not return because the whole
-      # procedure is a coroutine since we used yield.
-      returnValue(d.code)
+      return d.code
 
    @app.signal('onjoin')
    def entry_point():

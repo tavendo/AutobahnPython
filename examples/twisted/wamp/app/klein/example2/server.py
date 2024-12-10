@@ -27,7 +27,7 @@
 import jinja2
 from klein import Klein
 
-from twisted.internet.defer import inlineCallbacks, returnValue
+from twisted.internet.defer import inlineCallbacks
 from autobahn.twisted.wamp import Application
 
 
@@ -62,8 +62,7 @@ def home(request):
 def square(request, x):
     result = yield wampapp.session.call('com.example.square', x)
     page = webapp.templates.get_template('result.html')
-    content = page.render(x=x, result=result)
-    returnValue(content)
+    return page.render(x=x, result=result)
 
 
 @webapp.route('/square/submit', methods=['POST'])

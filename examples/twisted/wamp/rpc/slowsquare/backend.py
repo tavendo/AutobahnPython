@@ -25,8 +25,7 @@
 ###############################################################################
 
 from os import environ
-from twisted.internet.defer import inlineCallbacks, \
-    returnValue
+from twisted.internet.defer import inlineCallbacks
 
 from autobahn.twisted.wamp import ApplicationSession, ApplicationRunner
 from autobahn.twisted.util import sleep
@@ -49,7 +48,7 @@ class Component(ApplicationSession):
         @inlineCallbacks
         def slowsquare(x, delay=1):
             yield sleep(delay)
-            returnValue(x * x)
+            return x * x
 
         yield self.register(slowsquare, 'com.math.slowsquare')
 

@@ -1,7 +1,7 @@
 from autobahn.twisted.component import Component, run
 from autobahn.twisted.util import sleep
 from autobahn.wamp.types import RegisterOptions
-from twisted.internet.defer import inlineCallbacks, returnValue
+from twisted.internet.defer import inlineCallbacks
 
 # to see how this works on the Crossbar.io side, see the example
 # router configuration in:
@@ -61,7 +61,7 @@ def foo(*args, **kw):
         print("  returning in {}".format(x))
         yield sleep(1)
     print("returning '42'")
-    returnValue(42)
+    return 42
 
 
 if __name__ == "__main__":

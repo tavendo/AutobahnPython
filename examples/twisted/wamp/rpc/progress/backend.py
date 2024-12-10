@@ -25,7 +25,7 @@
 ###############################################################################
 
 from os import environ
-from twisted.internet.defer import inlineCallbacks, returnValue
+from twisted.internet.defer import inlineCallbacks
 
 from autobahn.wamp.types import RegisterOptions
 from autobahn.twisted.util import sleep
@@ -51,7 +51,7 @@ class Component(ApplicationSession):
             else:
                 # process like a normal call (not producing progressive results)
                 yield sleep(1 * n)
-            returnValue(n)
+            return n
 
         yield self.register(longop, 'com.myapp.longop', RegisterOptions(details_arg='details'))
 

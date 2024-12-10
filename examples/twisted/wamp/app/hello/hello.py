@@ -25,7 +25,6 @@
 ###############################################################################
 
 from os import environ
-from twisted.internet.defer import returnValue
 from autobahn.twisted.wamp import Application
 
 
@@ -42,7 +41,7 @@ def add2(a, b):
 def hello():
     print("hello() called")
     res = yield app.session.call('com.example.add2', 2, 3)
-    returnValue("Hello {}".format(res))
+    return "Hello {}".format(res)
 
 
 @app.signal('onjoined')

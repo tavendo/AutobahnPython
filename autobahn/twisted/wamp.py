@@ -596,19 +596,7 @@ class Application(object):
               return a + b
 
         If the function `yields` (is a co-routine), the `@inlineCallbacks` decorator
-        will be applied automatically to it. In that case, if you wish to return something,
-        you should use `returnValue`:
-
-        :Example:
-
-        .. code-block:: python
-
-           from twisted.internet.defer import returnValue
-
-           @app.register('com.myapp.add2')
-           def add2(a, b):
-              res = yield stuff(a, b)
-              returnValue(res)
+        will be applied automatically to it.
 
         :param uri: The URI of the procedure to register under.
         :type uri: unicode

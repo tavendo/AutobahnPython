@@ -246,13 +246,13 @@ Now, when converted to ``inlineCallbacks``, the code becomes:
    :emphasize-lines: 5,7,8
 
    from twisted.internet import reactor
-   from twisted.internet.defer import inlineCallbacks, returnValue
+   from twisted.internet.defer import inlineCallbacks
    from autobahn.twisted.util import sleep
 
    @inlineCallbacks
    def slow_square(x):
       yield sleep(1)
-      returnValue(x * x)
+      return x * x
 
    @inlineCallbacks
    def test():
@@ -268,11 +268,6 @@ Have a look at the highlighted lines - here is what we do:
 
 1. Decorating our squaring function with ``inlineCallbacks`` (line 5). Doing so marks the function as a coroutine which allows us to use this sequential looking coding style.
 2. Inside the function, we simulate the slow execution by sleeping for a second (line 7). However, we are sleeping in a non-blocking way (``autobahn.twisted.util.sleep``). The ``yield`` will put the coroutine aside until the sleep returns.
-3. To return values from Twisted coroutines, we need to use ``returnValue`` (line 8).
-
-.. note::
-
-   The reason ``returnValue`` is necessary goes deep into implementation details of Twisted and Python. In short: co-routines in Python 2 with Twisted are simulated using exceptions. Only Python 3.3+ has gotten native support for co-routines using the new yield from statement, Python 3.5+ use await statement and it is the new recommended method.
 
 In above, we are using a little helper ``autobahn.twisted.util.sleep`` for sleeping "inline". The helper is really trivial:
 
@@ -374,8 +369,7 @@ Now, when converted to ``asyncio.coroutine``, the code becomes:
 The main differences (on surface) are:
 
 1. The declaration of the function with ``async`` keyword (line 3) in asyncio versus the decorator ``@defer.inlineCallbacks`` with Twisted
-2. The use of ``defer.returnValue`` in Twisted for returning values whereas in asyncio, you can use plain returns (line 6)
-3. The use of ``await`` in asyncio, versus ``yield`` in Twisted (line 5)
-4. The auxiliary code to get the event loop started and stopped
+2. The use of ``await`` in asyncio, versus ``yield`` in Twisted (line 5)
+3. The auxiliary code to get the event loop started and stopped
 
 Most of the examples that follow will show code for both Twisted and asyncio, unless the conversion is trivial.
