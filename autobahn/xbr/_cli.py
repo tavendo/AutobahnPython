@@ -26,7 +26,10 @@
 
 import os
 import sys
-import pkg_resources
+if sys.version_info < (3, 10):
+    import importlib_resources as resources
+else:
+    from importlib import resources
 
 from jinja2 import Environment, FileSystemLoader
 
@@ -1026,7 +1029,7 @@ def _main():
         print(repo.summary(keys=True))
 
         # folder with jinja2 templates for python code sections
-        templates = pkg_resources.resource_filename('autobahn', 'xbr/templates')
+        templates = resources.files('autobahn.xbr') / 'templates'
 
         # jinja2 template engine loader and environment
         loader = FileSystemLoader(templates, encoding='utf-8', followlinks=False)

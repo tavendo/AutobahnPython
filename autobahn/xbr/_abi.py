@@ -27,7 +27,13 @@
 import os
 import json
 import binascii
-import pkg_resources
+import sys
+
+if sys.version_info < (3, 10):
+    import importlib_resources as resources
+else:
+    from importlib import resources
+
 
 os.environ['ETH_HASH_BACKEND'] = 'pycryptodome'
 
@@ -128,21 +134,21 @@ else:
 
 
 def _load_json(contract_name):
-    fn = pkg_resources.resource_filename('xbr', 'abi/{}.json'.format(contract_name))
-    with open(fn) as f:
-        data = json.loads(f.read())
+    fn = resources.files('xbr.abi') / f'{contract_name}.json'
+    text = fn.read_text()
+    data = json.loads(text)
     return data
 
 
 #
 # XBR contract ABI file names
 #
-XBR_TOKEN_FN = pkg_resources.resource_filename('xbr', 'abi/XBRToken.json')
-XBR_NETWORK_FN = pkg_resources.resource_filename('xbr', 'abi/XBRNetwork.json')
-XBR_DOMAIN_FN = pkg_resources.resource_filename('xbr', 'abi/XBRDomain.json')
-XBR_CATALOG_FN = pkg_resources.resource_filename('xbr', 'abi/XBRCatalog.json')
-XBR_MARKET_FN = pkg_resources.resource_filename('xbr', 'abi/XBRMarket.json')
-XBR_CHANNEL_FN = pkg_resources.resource_filename('xbr', 'abi/XBRChannel.json')
+XBR_TOKEN_FN = str(resources.files('xbr.abi') / 'XBRToken.json')
+XBR_NETWORK_FN = str(resources.files('xbr.abi') / 'XBRNetwork.json')
+XBR_DOMAIN_FN = str(resources.files('xbr.abi') / 'XBRDomain.json')
+XBR_CATALOG_FN = str(resources.files('xbr.abi') / 'XBRCatalog.json')
+XBR_MARKET_FN = str(resources.files('xbr.abi') / 'XBRMarket.json')
+XBR_CHANNEL_FN = str(resources.files('xbr.abi') / 'XBRChannel.json')
 
 
 #

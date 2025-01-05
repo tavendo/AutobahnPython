@@ -57,7 +57,7 @@ jobs:
 
         # python 3.11 fails with "src/twisted/test/raiser.c:198:12: fatal error: longintrepr.h: No such file or directory"
         # twisted doesn't yet support 3.11 formally: https://github.com/twisted/twisted/blob/trunk/pyproject.toml#L24
-        python-version: ['3.9', '3.11', 'pypy-3.9']
+        python-version: ['3.9', '3.11', 'pypy-3.10']
         framework: ['asyncio', 'tw2403', 'twtrunk']
 
     # https://github.blog/changelog/2020-04-15-github-actions-new-workflow-features/

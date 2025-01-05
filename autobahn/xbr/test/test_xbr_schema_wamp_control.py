@@ -1,6 +1,10 @@
 import os
 import copy
-import pkg_resources
+import sys
+if sys.version_info < (3, 10):
+    import importlib_resources as resources
+else:
+    from importlib import resources
 import txaio
 from unittest import skipIf
 
@@ -30,7 +34,7 @@ class TestFbsBase(unittest.TestCase):
         self.repo = FbsRepository('autobahn')
         self.archives = []
         for fbs_file in ['wamp-control.bfbs']:
-            archive = pkg_resources.resource_filename('autobahn', 'xbr/test/catalog/schema/{}'.format(fbs_file))
+            archive = str(resources.files('autobahn.xbr.test.catalog.schema') / fbs_file)
             self.repo.load(archive)
             self.archives.append(archive)
 

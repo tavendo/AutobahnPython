@@ -95,13 +95,13 @@ To directly use the embedded ABI files:
 .. code-block:: python
 
     import json
-    import pkg_resources
+    import importlib.resources
     from pprint import pprint
 
-    with open(pkg_resources.resource_filename('xbr', 'contracts/XBRToken.json')) as f:
-        data = json.loads(f.read())
-        abi = data['abi']
-        pprint(abi)
+    text = (importlib.resources.files('xbr.abi') / 'XBRToken.json').read_text()
+    data = json.loads(text)
+    abi = data['abi']
+    pprint(abi)
 
 
 Data stored on-chain

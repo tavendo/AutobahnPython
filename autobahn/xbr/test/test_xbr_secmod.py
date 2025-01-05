@@ -26,7 +26,10 @@
 
 import os
 import sys
-import pkg_resources
+if sys.version_info < (3, 10):
+    import importlib_resources as resources
+else:
+    from importlib import resources
 from random import randint, random
 from binascii import a2b_hex
 from typing import List
@@ -418,7 +421,7 @@ class TestSecurityModule(TestCase):
 
     @inlineCallbacks
     def test_secmod_from_config(self):
-        config = pkg_resources.resource_filename('autobahn', 'xbr/test/profile/config.ini')
+        config = str(resources.files('autobahn.xbr.test.profile') / 'config.ini')
 
         sm = SecurityModuleMemory.from_config(config)
         yield sm.open()
@@ -439,7 +442,7 @@ class TestSecurityModule(TestCase):
 
     @inlineCallbacks
     def test_secmod_from_keyfile(self):
-        keyfile = pkg_resources.resource_filename('autobahn', 'xbr/test/profile/default.priv')
+        keyfile = str(resources.files('autobahn.xbr.test.profile') / 'default.priv')
 
         sm = SecurityModuleMemory.from_keyfile(keyfile)
         yield sm.open()

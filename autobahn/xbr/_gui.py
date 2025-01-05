@@ -29,9 +29,14 @@ import argparse
 import uuid
 import binascii
 import random
-import pkg_resources
 from pprint import pprint
 from time import time_ns
+
+import sys
+if sys.version_info < (3, 10):
+    import importlib_resources as resources
+else:
+    from importlib import resources
 
 import gi
 
@@ -65,7 +70,7 @@ from autobahn.xbr import account_from_seedphrase, generate_seedphrase, account_f
 from autobahn.xbr._cli import Client
 from autobahn.xbr._config import UserConfig, Profile
 
-LOGO_RESOURCE = pkg_resources.resource_filename('autobahn', 'asset/xbr_gray.svg')
+LOGO_RESOURCE = str(resources.files('autobahn.asset') / 'xbr_gray.svg')
 print(LOGO_RESOURCE, os.path.isfile(LOGO_RESOURCE))
 
 

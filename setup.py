@@ -235,7 +235,8 @@ setup(
         'txaio>=21.2.1',        # MIT license (https://github.com/crossbario/txaio)
         'cryptography>=3.4.6',  # BSD *or* Apache license (https://github.com/pyca/cryptography)
         'hyperlink>=21.0.0',    # MIT license (https://github.com/python-hyper/hyperlink)
-        'setuptools',           # MIT license (https://github.com/pypa/setuptools)
+        'importlib.resources>=5.0.0 ; python_version < "3.10"',    # Apache license (https://github.com/python/importlib_resources/blob/main/LICENSE)
+
     ],
     extras_require={
         'all': extras_require_all,

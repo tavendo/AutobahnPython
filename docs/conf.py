@@ -332,7 +332,6 @@ htmlhelp_basename = 'autobahndoc'
 
 # http://sphinx-doc.org/ext/intersphinx.html
 intersphinx_mapping = {
-   'py3': ('https://docs.python.org/3', None),
    'python': ('https://docs.python.org/3', None),
    'rtd': ('https://docs.readthedocs.io/en/latest/', None),
    'txaio': ('https://txaio.readthedocs.io/en/latest/', None),

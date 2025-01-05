@@ -2,7 +2,7 @@ import os
 import sys
 import platform
 import importlib
-import pkg_resources
+import importlib.metadata
 
 import txaio
 txaio.use_twisted()  # noqa
@@ -28,7 +28,7 @@ def _get_version(name_or_module):
         v = name_or_module.version
     else:
         try:
-            v = pkg_resources.get_distribution(name_or_module.__name__).version
+            v = importlib.metadata.version(name_or_module.__name__)
         except:
             # eg flatbuffers when run from single file EXE (pyinstaller): https://github.com/google/flatbuffers/issues/5299
             v = '?.?.?'

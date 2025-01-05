@@ -24,7 +24,7 @@ pytest>=3.4.2
 pyyaml>=4.2b4
 qualname
 sphinx-autoapi>=1.7.0
-sphinx>=1.7.1
+sphinx>=1.7.1,<8
 sphinx_rtd_theme>=0.1.9
 sphinxcontrib-images>=0.9.1
 tox-gh-actions>=2.2.0
